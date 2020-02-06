@@ -1,0 +1,45 @@
+{% extends "app/base.html" %}
+
+{% block content %}
+
+<!--    <h4 class="col-12 grid-margin stretch-card">習慣の編集</h4>-->
+<!--      <div class="card-body">-->
+<!--        <div class="template-demo">-->
+<!--          <button type="button" class="btn btn-gradient-primary btn-fw">完了</button>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </form>-->
+<!--    <a href="{% url 'app:habit_list' %}" class="btn btn-link btn-fw">戻る</a>-->
+
+<div class="col-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">習慣</h4>
+        <p class="card-description"> 新しい習慣または変更する習慣を記述してください </p>
+          <form class="forms-sample"></form>
+            {% if habit_id %}
+            <form action="{% url 'app:habit_mod' habit_id=habit_id %}" method="post">
+            {% else %}
+            </form>
+            <form action="{% url 'app:habit_add' %}" method="post">
+            {% endif %}
+            {% csrf_token %}
+            {{ form.as_table}}
+
+
+
+                <!--            <div class="form-group">-->
+<!--                <label for="exampleTextarea1">習慣名</label>-->
+<!--                <textarea class="form-control" id="exampleTextarea1" rows="1"></textarea>-->
+<!--            </div>-->
+
+            <button type="submit" class="btn btn-gradient-primary mr-2">Submit</button>
+            <a href="{% url 'app:habit_list' %}" class="btn btn-light">戻る</a>
+            </form>
+
+
+      </div>
+    </div>
+</div>
+
+{% endblock content %}

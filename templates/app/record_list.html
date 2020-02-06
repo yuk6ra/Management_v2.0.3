@@ -1,0 +1,97 @@
+{% extends "app/base.html" %}
+{% block content %}
+{% load utils %}
+<div class="col-lg-6 grid-margin stretch-card">
+  <div class="card">
+    <div class="card-body">
+
+      <h4 class="card-title">Bar chart</h4>
+      <canvas id="barChart" style="height:230px"></canvas>
+      <script type="text/javascript">
+    var chartChart = document.getElementById("myChart");
+    new Chart(chartChart, {
+        type: 'bar',
+        data: {
+            labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+            datasets: [{
+                label: '# of Votes',
+                data: {{ habit.habit_date }},
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255,99,132,1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            }
+        }
+    });
+</script>
+    </div>
+  </div>
+</div>
+
+             <div class="row">
+              <div class="col-lg-10 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <a href="{% url 'app:record_add' habit_id=habit.id %}" class="btn btn-gradient-dark pull-right">追加</a>
+                    <a href="{% url 'app:habit_list' %}" class="btn btn-light">戻る</a>
+                    <h4 class="card-title">『{{ habit.habit_name}}』</h4>
+
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>記録数</th>
+                          <th>日付</th>
+<!--                          <th>No.</th>-->
+                          <th>記録</th>
+                          <th>コメント</th>
+                          <th>ポイント</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                          {% for record in records %}
+                        <tr>
+                          <td>{{ forloop.revcounter }} 回</td>
+                          <td>{{ record.record_date}}</td>
+<!--                          <td>{{ record.id}}</td>-->
+                          <td>{{ record.record}}</td>
+                          <td >{{ record.record_comment}}</td>
+                          <td >{{ forloop.revcounter | multiply:forloop.revcounter}}</td>
+                          <td>
+                          <a href="{% url 'app:record_del' habit_id=habit.id record_id=record.id %}">
+                            <button type="button" class="btn btn-gradient-dark btn-rounded btn-icon">
+                              <i class="mdi mdi-delete-forever"></i>
+                            </button>
+                          </a>
+                          </td>
+                            <!--                            <td><label class="badge badge-danger">Pending</label></td>-->
+                        </tr>
+                         {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+{% endblock content%}
+
